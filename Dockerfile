@@ -13,6 +13,8 @@ ENV BASE_URL      "http://localhost:9009"
 # Which FHIR servers to use
 ENV FHIR_SERVER_R2 "https://r2.smarthealthit.org"
 ENV FHIR_SERVER_R3 "https://r3.smarthealthit.org"
+ENV FHIR_SERVER_R4 "https://fhir-server/hapi-fhir-jpaserver/fhir"
+
 
 # The names of the config files corresponding to the FHIR servers above
 ENV PICKER_CONFIG_R2 "r2"
