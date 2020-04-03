@@ -8,7 +8,7 @@ WORKDIR /app
 
 ENV NODE_ENV      "production"
 ENV LAUNCHER_PORT "443"
-ENV BASE_URL      "https://localhost"
+ENV BASE_URL      "https://smart-launcher.sureuniversal-dbg.net"
 ENV PRIVATE "./cert/"
 
 
