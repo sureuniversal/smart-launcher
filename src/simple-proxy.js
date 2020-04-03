@@ -11,6 +11,7 @@ require("colors");
 
 
 module.exports = (req, res) => {
+    console.log("proxy start");
 
     // We cannot handle the conformance here!
     if (req.url.match(/^\/metadata/)) {
@@ -67,6 +68,7 @@ module.exports = (req, res) => {
         url   : Url.parse(fhirServer + req.url, true),
         gzip  : true
     };
+    console.log(fhirServer + req.url);
 
     const isBinary = fhirRequestOptions.url.pathname.indexOf("/Binary/") === 0;
 
@@ -120,6 +122,7 @@ module.exports = (req, res) => {
 
     // Proxy -------------------------------------------------------------------
     let fullFhirBaseUrl = `${config.baseUrl}/v/${fhirVersionLower}${config.fhirBaseUrl}`;
+    console.log(fhirRequestOptions);
     let stream = request(fhirRequestOptions)
         .on('error', function(error) {
             console.error(error);

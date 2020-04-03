@@ -3,6 +3,8 @@ const cors           = require("cors");
 const bodyParser     = require('body-parser');
 const fs             = require("fs");
 const base64url      = require("base64-url");
+require("dotenv").config();
+
 const smartAuth      = require("./smart-auth");
 const reverseProxy   = require("./reverse-proxy");
 const simpleProxy    = require("./simple-proxy");
@@ -11,6 +13,18 @@ const generator      = require("./generator");
 const lib            = require("./lib");
 const launcher       = require("./launcher");
 const wellKnownSmart = require("./wellKnownSmartConfiguration");
+var https = require('https');
+var sslConfig = require('./ssl-config');
+
+var options = {
+
+    key: sslConfig.privateKey,
+
+    cert: sslConfig.certificate,
+
+    ca: sslConfig.ca,
+
+};
 
 
 const handleParseError = function(err, req, res, next) {
@@ -26,7 +40,7 @@ const handleParseError = function(err, req, res, next) {
 
 const handleXmlRequest = function(err, req, res, next) {
     if (
-        req.headers.accept &&req.headers.accept.indexOf("xml") != -1 || 
+        req.headers.accept &&req.headers.accept.indexOf("xml") != -1 ||
         req.headers['content-type'] && req.headers['content-type'].indexOf("xml") != -1 ||
         /_format=.*xml/i.test(req.url)
     ) {
@@ -74,7 +88,7 @@ if (IP_BLACK_LIST.length) {
 // app.use((req, res, next) => {
 //     let proto = req.headers["x-forwarded-proto"];
 //     let host  = req.headers.host;
-//     if (proto && (`${proto}://${host}` !== config.baseUrl)) { 
+//     if (proto && (`${proto}://${host}` !== config.baseUrl)) {
 //         return res.redirect(301, config.baseUrl + req.url);
 //     }
 //     next();
@@ -217,11 +231,15 @@ app.get("/public_key", (req, res) => {
 app.use(express.static("static"));
 
 if (!module.parent) {
-    app.listen(config.port, () => {
-        console.log(`SMART launcher listening on port ${config.port}!`)
+    var externalServer = https.createServer(options, app);
+    externalServer.listen(config.port, () => {
+        console.log(`SMART launcher listening on port savta1 ${config.port}!`)
     });
+    /*app.listen(config.port, () => {
+        console.log(`SMART launcher listening on port savta1 ${config.port}!`)
+    });*/
 
-    if (process.env.SSL_PORT) {
+    /*if (process.env.SSL_PORT) {
         require('pem').createCertificate({
             days: 100,
             selfSigned: true
@@ -233,10 +251,10 @@ if (!module.parent) {
                 key: keys.serviceKey,
                 cert: keys.certificate
             }, app).listen(process.env.SSL_PORT, () => {
-                console.log(`SMART launcher listening on port ${process.env.SSL_PORT}!`)
+                console.log(`SMART launcher listening on port ssl ${process.env.SSL_PORT}!`)
             });
         });
-    }
+    }*/
 }
 
 module.exports = app;

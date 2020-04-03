@@ -7,14 +7,15 @@ FROM node:9
 WORKDIR /app
 
 ENV NODE_ENV      "production"
-ENV LAUNCHER_PORT "80"
-ENV BASE_URL      "http://localhost:9009"
+ENV LAUNCHER_PORT "443"
+ENV BASE_URL      "https://localhost"
+ENV PRIVATE "./cert/"
+
 
 # Which FHIR servers to use
 ENV FHIR_SERVER_R2 "https://r2.smarthealthit.org"
 ENV FHIR_SERVER_R3 "https://r3.smarthealthit.org"
-ENV FHIR_SERVER_R4 "https://fhir-server/hapi-fhir-jpaserver/fhir"
-
+ENV FHIR_SERVER_R4 "https://fhir-server.sureuniversal-dbg.net/hapi-fhir-jpaserver/fhir"
 
 # The names of the config files corresponding to the FHIR servers above
 ENV PICKER_CONFIG_R2 "r2"
@@ -32,6 +33,6 @@ RUN mv /tmp/node_modules /app/node_modules
 COPY . .
 
 # You must use -p 9009:80 when running the image
-EXPOSE 80 
+EXPOSE 443
 
 CMD ["node", "./src/index.js"]
