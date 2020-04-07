@@ -22,7 +22,7 @@ ENV PICKER_CONFIG_R2 "r2"
 ENV PICKER_CONFIG_R3 "r3"
 ENV PICKER_CONFIG_R4 "r4"
 
-ENV PICKER_ORIGIN "https://patient-browser.smarthealthit.org"
+ENV PICKER_ORIGIN "https://patient-browser.s3.eu-central-1.amazonaws.com"
 
 # Install and cache
 COPY package.json      /tmp/package.json
